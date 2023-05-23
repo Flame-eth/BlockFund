@@ -13,8 +13,9 @@ const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
   const { contract } = useContract(
-    "0x62b73470406aF592bfAC3a499888C80bB2Cfe047"
+    "0x62b73470406af592bfac3a499888c80bb2cfe047"
   );
+  // console.log("contract", contract);
   const { mutateAsync: createCampaign } = useContractWrite(
     contract,
     "createCampaign"
@@ -24,15 +25,19 @@ export const StateContextProvider = ({ children }) => {
   const connect = useMetamask();
 
   const publishCampaign = async (form) => {
+    console.log(form);
+    const deadline = new Date(form.deadline).getTime();
+    console.log(deadline);
     try {
-      const data = await createCampaign([
-        address, // owner
-        form.title, // title
-        form.description, // description
-        form.target,
-        new Date(form.deadline).getTime(), // deadline,
-        form.image,
-      ]);
+      const data = await createCampaign({
+        args: [
+          address,
+          form.description, // description
+          form.target,
+          deadline,
+          form.image,
+        ],
+      });
 
       console.log("contract call success", data);
     } catch (error) {

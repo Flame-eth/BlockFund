@@ -109,6 +109,4 @@ export const StateContextProvider = ({ children }) => {
   );
 };
 
-
-
 export const useStateContext = () => useContext(StateContext);

@@ -15,7 +15,7 @@ export const StateContextProvider = ({ children }) => {
   const { contract } = useContract(
     "0x62b73470406af592bfac3a499888c80bb2cfe047"
   );
-  // console.log("contract", contract);
+
   const { mutateAsync: createCampaign } = useContractWrite(
     contract,
     "createCampaign"
@@ -30,13 +30,7 @@ export const StateContextProvider = ({ children }) => {
     console.log(deadline);
     try {
       const data = await createCampaign({
-        args: [
-          address,
-          form.description, // description
-          form.target,
-          deadline,
-          form.image,
-        ],
+        args: [address, form.description, form.target, deadline, form.image],
       });
 
       console.log("contract call success", data);
@@ -114,5 +108,7 @@ export const StateContextProvider = ({ children }) => {
     </StateContext.Provider>
   );
 };
+
+
 
 export const useStateContext = () => useContext(StateContext);
